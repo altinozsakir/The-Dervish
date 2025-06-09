@@ -22,7 +22,7 @@ namespace the_dervish
             }
         }
 
-        public RuntimeAnimatorController GetAnimator(GeneralBodyPart generalBodyPart)
+        public RuntimeAnimatorController GetAnimator(GeneralBodyPart generalBodyPart, AttackInfo info)
         {
             SetupDeathAnimationLoader();
 
@@ -30,14 +30,29 @@ namespace the_dervish
 
             foreach (DeathAnimationData data in deathAnimationLoader.DeathAnimationDataList)
             {
-                foreach (GeneralBodyPart p in data.GeneralBodyParts)
+
+                Debug.Log("info :" + info.ColliderNames[0].ToString());
+                Debug.Log("data :" + data.LaunchIntoAir.ToString());
+                if (info.LaunchIntoAir)
                 {
-                    if (p == generalBodyPart)
+                    if (data.LaunchIntoAir)
                     {
                         Candidates.Add(data.Animator);
-                        break;
                     }
                 }
+                else
+                {
+                    foreach (GeneralBodyPart p in data.GeneralBodyParts)
+                    {
+                        if (p == generalBodyPart)
+                        {
+                            Candidates.Add(data.Animator);
+                            break;
+                        }
+                    }
+                }
+
+
             }
 
             return Candidates[Random.Range(0, Candidates.Count)];

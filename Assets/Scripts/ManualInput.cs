@@ -1,4 +1,4 @@
-using TMPro;
+
 using UnityEngine;
 
 
@@ -18,6 +18,23 @@ namespace the_dervish{
 
         void Update()
         {
+            if (VirtualInputManager.Instance.MoveUp)
+            {
+                characterControl.MoveUp = true;
+            }
+            else
+            {
+                characterControl.MoveUp = false;
+            }
+            if (VirtualInputManager.Instance.MoveDown)
+            {
+                characterControl.MoveDown = true;
+            }
+            else
+            {
+                characterControl.MoveDown = false;
+            }
+
             if (VirtualInputManager.Instance.MoveRight)
             {
                 characterControl.MoveRight = true;

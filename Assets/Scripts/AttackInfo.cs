@@ -15,6 +15,8 @@ namespace the_dervish
         public bool MustCollide;
         public bool MustFaceAttacker;
         public float LethalRange;
+
+        public bool LaunchIntoAir;
         public int MaxHits;
         public int CurrentHits;
         public bool isRegistered;
@@ -37,13 +39,14 @@ namespace the_dervish
             MustCollide = attack.MustCollide;
             MustFaceAttacker = attack.MustFaceAttacker;
             LethalRange = attack.LethalRange;
+            LaunchIntoAir = attack.LaunchIntoAir;
             MaxHits = attack.MaxHits;
             CurrentHits = 0;
 
 
         }
 
-        private void Oisable()
+        private void Disable()
         {
             isFinished = true;            
         }

@@ -12,6 +12,8 @@ namespace the_dervish
         public List<GeneralBodyPart> GeneralBodyParts = new List<GeneralBodyPart>();
         public RuntimeAnimatorController Animator;
         public bool IsFacingAttacker;
+
+        public bool LaunchIntoAir;
     }
 
 

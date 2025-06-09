@@ -22,12 +22,12 @@ namespace the_dervish
         {
             if (AttackManager.Instance.CurrentAttacks.Count > 0)
             {
-                CheckAttact();
+                CheckAttack();
             }
         }
 
 
-        private void CheckAttact()
+        private void CheckAttack()
         {
             foreach (AttackInfo info in AttackManager.Instance.CurrentAttacks)
             {
@@ -89,11 +89,11 @@ namespace the_dervish
 
         private void TakeDamage(AttackInfo info)
         {
-            CameraManager.Instance.ShakeCamera(0.35f);
+            CameraManager.Instance.ShakeCamera(0.25f);
             Debug.Log(info.Attacker.gameObject.name + "hits: " + this.gameObject.name);
             Debug.Log(this.gameObject.name + "hits: " + DamagedPart.ToString());
             //control.SkinnedMeshAnimator.runtimeAnimatorController = info.AttackAbility.GetDeathAnimator();
-            control.SkinnedMeshAnimator.runtimeAnimatorController = DeathAnimationManager.Instance.GetAnimator(DamagedPart);
+            control.SkinnedMeshAnimator.runtimeAnimatorController = DeathAnimationManager.Instance.GetAnimator(DamagedPart, info);
             info.CurrentHits++;
             control.GetComponent<BoxCollider>().enabled = false;
             control.RIGID_BODY.useGravity = false;

@@ -1,13 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
-using UnityEditorInternal;
 using UnityEngine;
-
 
 namespace the_dervish
 {
-
+    // Enum to define the different transition parameters for the Animator
     public enum TransitionParameter
     {
         Move,
@@ -15,33 +12,35 @@ namespace the_dervish
         ForceTransition,
         Grounded,
         Attack,
+        TransitionIndex,
     }
 
+    // This class handles character movement, animation states, collision detection, and ragdoll physics
     public class CharacterControl : MonoBehaviour
     {
-
         [SerializeField] public Animator SkinnedMeshAnimator;
         [SerializeField] public bool MoveRight;
         [SerializeField] public bool MoveLeft;
+        [SerializeField] public bool MoveUp;
+        [SerializeField] public bool MoveDown;
         [SerializeField] public bool Jump;
-
         [SerializeField] public bool Attack;
 
-        public Material material;
+        [SerializeField] public LedgeChecker ledgeChecker;
 
+        // Prefab to visualize or use for collision edge detection
         public GameObject ColliderEdgePrefab;
         public List<GameObject> BottomSpheres = new List<GameObject>();
         public List<GameObject> FrontSpheres = new List<GameObject>();
 
+        // Parts of the body that become active when ragdoll is triggered
         public List<Collider> RagdollParts = new List<Collider>();
-
         private List<TriggerDetector> TriggerDetectors = new List<TriggerDetector>();
-
-        //public List<Collider> CollidingParts = new List<Collider>();
 
         public float GravityMultiplier;
         public float PullMultiplier;
 
+        // Cached reference to the Rigidbody
         private new Rigidbody rigidbody;
 
         public Rigidbody RIGID_BODY
@@ -52,47 +51,41 @@ namespace the_dervish
                 {
                     rigidbody = GetComponent<Rigidbody>();
                 }
-
                 return rigidbody;
             }
         }
 
         private void Awake()
         {
+            // Temporarily face the character forward to align colliders
             bool SwitchBack = false;
-
             if (!IsFacingForward())
             {
                 SwitchBack = true;
             }
+
             FaceForward(true);
             SetColliderSpheres();
 
+            // Return to original facing direction if needed
             if (SwitchBack)
             {
                 FaceForward(false);
             }
 
+            ledgeChecker = GetComponentInChildren<LedgeChecker>();
         }
 
-        /*         private IEnumerator Start(){
-                    yield return new WaitForSeconds(5f);
-                    //RIGID_BODY.AddForce(200f * Vector3.up);
-                    yield return new WaitForSeconds(0.5f);
-                    TurnOnRagdoll();
-                } */
-
-
-
+        // Enables ragdoll mode by disabling animator and enabling physical colliders
         public void TurnOnRagdoll()
         {
-
             RIGID_BODY.useGravity = false;
             RIGID_BODY.linearVelocity = Vector3.zero;
 
             this.gameObject.GetComponent<BoxCollider>().enabled = false;
             SkinnedMeshAnimator.enabled = false;
             SkinnedMeshAnimator.avatar = null;
+
             foreach (Collider c in RagdollParts)
             {
                 c.isTrigger = false;
@@ -100,9 +93,9 @@ namespace the_dervish
             }
         }
 
+        // Prepares colliders for ragdoll by marking them as triggers and tracking them
         public void SetRagdollParts()
         {
-
             RagdollParts.Clear();
             Collider[] colliders = this.gameObject.GetComponentsInChildren<Collider>();
 
@@ -118,14 +111,10 @@ namespace the_dervish
                         c.gameObject.AddComponent<TriggerDetector>();
                     }
                 }
-
-
             }
-
         }
 
-
-
+        // Sets up reference spheres at the character's base and front to be used for collision detection
         private void SetColliderSpheres()
         {
             BoxCollider box = GetComponent<BoxCollider>();
@@ -139,7 +128,6 @@ namespace the_dervish
             GameObject bottomBack = CreateEdgeSphere(new Vector3(0f, bottom, back));
             GameObject topFront = CreateEdgeSphere(new Vector3(0f, top, front));
 
-
             BottomSpheres.Add(bottomFront);
             BottomSpheres.Add(bottomBack);
             FrontSpheres.Add(topFront);
@@ -152,6 +140,7 @@ namespace the_dervish
             CreateMiddleSpheres(bottomFront, this.transform.up, verSec, 9, FrontSpheres);
         }
 
+        // Handles gravity and jump pull effects in physics step
         private void FixedUpdate()
         {
             if (RIGID_BODY.linearVelocity.y < 0f)
@@ -165,19 +154,17 @@ namespace the_dervish
             }
         }
 
+        // Helper to create evenly spaced spheres between two points
         public void CreateMiddleSpheres(GameObject start, Vector3 direction, float sec, int iterations, List<GameObject> spheresList)
         {
-            // spheresList.Add(CreateEdgeSphere(start.transform.position));
             for (int i = 0; i < iterations; i++)
             {
                 Vector3 pos = start.transform.position + (direction * sec * (i + 1));
-
                 spheresList.Add(CreateEdgeSphere(pos));
             }
-
         }
 
-
+        // Instantiates a collision sphere and parents it to the character
         public GameObject CreateEdgeSphere(Vector3 pos)
         {
             GameObject obj = Instantiate(ColliderEdgePrefab, pos, Quaternion.identity);
@@ -185,13 +172,13 @@ namespace the_dervish
             return obj;
         }
 
-
+        // Moves the character forward based on speed and animation speed curve
         public void MoveForward(float Speed, float SpeedGraph)
         {
             transform.Translate(Vector3.forward * Speed * SpeedGraph * Time.deltaTime);
         }
 
-
+        // Rotates the character to face forward or backward (used for flipping direction)
         public void FaceForward(bool forward)
         {
             if (forward)
@@ -204,26 +191,18 @@ namespace the_dervish
             }
         }
 
+        // Checks if the character is currently facing forward
         public bool IsFacingForward()
         {
-            if (transform.forward.z > 0f)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            return transform.forward.z > 0f;
         }
 
-
+        // Returns all child colliders with TriggerDetector, caching for performance
         public List<TriggerDetector> GetAllTriggers()
         {
-
             if (TriggerDetectors.Count == 0)
             {
                 TriggerDetector[] arr = this.gameObject.GetComponentsInChildren<TriggerDetector>();
-
 
                 foreach (TriggerDetector d in arr)
                 {
@@ -231,32 +210,7 @@ namespace the_dervish
                 }
             }
 
-
             return TriggerDetectors;
         }
-
-
-        public void ChangeMaterial()
-        {
-
-            if (material == null)
-            {
-                Debug.Log("No Material Spesified");
-            }
-            Renderer[] arrMaterials = this.gameObject.GetComponentsInChildren<Renderer>();
-
-
-            foreach (Renderer r in arrMaterials)
-            {
-                if (r.gameObject != this.gameObject)
-                {
-                    r.material = material;
-                }
-            }
-
-        }
     }
-
-
-
 }

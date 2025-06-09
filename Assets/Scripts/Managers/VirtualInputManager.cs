@@ -11,6 +11,9 @@ namespace the_dervish
     {
         public bool MoveRight;
         public bool MoveLeft;
+        
+        public bool MoveUp;
+        public bool MoveDown;
 
         public bool Jump;
 

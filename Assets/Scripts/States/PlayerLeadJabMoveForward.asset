@@ -13,16 +13,16 @@ MonoBehaviour:
   m_Name: PlayerLeadJabMoveForward
   m_EditorClassIdentifier: 
   Constant: 1
-  Speed: 3
+  Speed: 2
   blockDistance: 0.1
   SpeedGraph:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: -0.40180755
-      outSlope: -0.40180755
+      time: 0.00077438354
+      value: 0.5046387
+      inSlope: 1.0490894
+      outSlope: 1.0490894
       tangentMode: 34
       weightedMode: 0
       inWeight: 0

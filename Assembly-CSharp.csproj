@@ -67,32 +67,38 @@
   <ItemGroup>
     <Compile Include="Assets\Cameras\CameraController.cs" />
     <Compile Include="Assets\Scripts\Managers\DeathAnimationManager.cs" />
-    <Compile Include="Assets\Scripts\Jump.cs" />
+    <Compile Include="Assets\Scripts\StateScripts\TransitionIndexer.cs" />
+    <Compile Include="Assets\Scripts\StateScripts\Attack.cs" />
+    <Compile Include="Assets\Scripts\StateScripts\Idle.cs" />
     <Compile Include="Assets\Scripts\CharacterState.cs" />
     <Compile Include="Assets\Scripts\TriggerDetector.cs" />
-    <Compile Include="Assets\Scripts\GroundDetector.cs" />
-    <Compile Include="Assets\Scripts\Attack.cs" />
+    <Compile Include="Assets\Scripts\StateScripts\ToggleGravity.cs" />
     <Compile Include="Assets\Scripts\Managers\CameraManager.cs" />
     <Compile Include="Assets\Scripts\KeyboardInput.cs" />
     <Compile Include="Assets\Scripts\StateData.cs" />
     <Compile Include="Assets\Character\CharacterControl\CharacterControl.cs" />
     <Compile Include="Assets\Scripts\CameraState.cs" />
+    <Compile Include="Assets\Scripts\StateScripts\GroundDetector.cs" />
     <Compile Include="Assets\Scripts\AttackInfo.cs" />
-    <Compile Include="Assets\Scripts\Idle.cs" />
+    <Compile Include="Assets\Scripts\StateScripts\Landing.cs" />
     <Compile Include="Assets\PooledObjects\PoolObject.cs" />
     <Compile Include="Assets\Character\Death\DeathAnimationData.cs" />
+    <Compile Include="Assets\Scripts\InteractionInputData.cs" />
+    <Compile Include="Assets\Scripts\StateScripts\ForceTransition.cs" />
     <Compile Include="Assets\Scripts\Managers\VirtualInputManager.cs" />
-    <Compile Include="Assets\Scripts\ForceTransition.cs" />
+    <Compile Include="Assets\Scripts\IInteractable.cs" />
     <Compile Include="Assets\Character\MaterialChanger.cs" />
-    <Compile Include="Assets\Scripts\Landing.cs" />
     <Compile Include="Assets\Scripts\Managers\AttackManager.cs" />
     <Compile Include="Assets\Scripts\Managers\PoolManager.cs" />
+    <Compile Include="Assets\Scripts\StateScripts\MoveForward.cs" />
+    <Compile Include="Assets\Scripts\StateScripts\Jump.cs" />
+    <Compile Include="Assets\Scripts\Ledge.cs" />
     <Compile Include="Assets\Scripts\DamageDetector.cs" />
     <Compile Include="Assets\Scripts\ManualInput.cs" />
-    <Compile Include="Assets\Scripts\MoveForward.cs" />
     <Compile Include="Assets\PooledObjects\PoolObjectLoader.cs" />
     <Compile Include="Assets\Scripts\SingletonMonoBehavior.cs" />
     <Compile Include="Assets\Character\Death\Resources\DeathAnimationLoader.cs" />
+    <Compile Include="Assets\Scripts\LedgeChecker.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">
@@ -1091,16 +1097,20 @@
       <HintPath>Library\ScriptAssemblies\UnityEditor.UI.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="Unity.Searcher.Editor">
-      <HintPath>Library\ScriptAssemblies\Unity.Searcher.Editor.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
     <Reference Include="Unity.Rider.Editor">
       <HintPath>Library\ScriptAssemblies\Unity.Rider.Editor.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Unity.AI.Navigation">
       <HintPath>Library\ScriptAssemblies\Unity.AI.Navigation.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Unity.Searcher.Editor">
+      <HintPath>Library\ScriptAssemblies\Unity.Searcher.Editor.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Unity.Animation.Rigging.Editor">
+      <HintPath>Library\ScriptAssemblies\Unity.Animation.Rigging.Editor.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Unity.RenderPipeline.Universal.ShaderLibrary">
@@ -1175,6 +1185,14 @@
       <HintPath>Library\ScriptAssemblies\PPv2URPConverters.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="Unity.ProBuilder.Editor">
+      <HintPath>Library\ScriptAssemblies\Unity.ProBuilder.Editor.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Unity.ProBuilder.AddOns.Editor">
+      <HintPath>Library\ScriptAssemblies\Unity.ProBuilder.AddOns.Editor.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="Unity.Rendering.LightTransport.Editor">
       <HintPath>Library\ScriptAssemblies\Unity.Rendering.LightTransport.Editor.dll</HintPath>
       <Private>False</Private>
@@ -1191,12 +1209,20 @@
       <HintPath>Library\ScriptAssemblies\Unity.Splines.Editor.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="Unity.ProBuilder.AssetIdRemapUtility">
+      <HintPath>Library\ScriptAssemblies\Unity.ProBuilder.AssetIdRemapUtility.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="Unity.RenderPipelines.Universal.Editor">
       <HintPath>Library\ScriptAssemblies\Unity.RenderPipelines.Universal.Editor.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Unity.Collections.Editor">
       <HintPath>Library\ScriptAssemblies\Unity.Collections.Editor.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Unity.Animation.Rigging">
+      <HintPath>Library\ScriptAssemblies\Unity.Animation.Rigging.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Unity.RenderPipelines.ShaderGraph.ShaderGraphLibrary">
@@ -1253,6 +1279,10 @@
     </Reference>
     <Reference Include="Unity.RenderPipelines.Universal.Runtime">
       <HintPath>Library\ScriptAssemblies\Unity.RenderPipelines.Universal.Runtime.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Unity.ProBuilder">
+      <HintPath>Library\ScriptAssemblies\Unity.ProBuilder.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Unity.VisualScripting.State">

@@ -14,10 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   StartAttackTime: 0.15
   EndAttackTime: 0.72
+  debug: 0
   ColliderNames:
-  - B-hand.L
   - mixamorig:LeftHand
   MustCollide: 1
+  LaunchIntoAir: 0
   MustFaceAttacker: 0
   LethalRange: 0
   MaxHits: 1

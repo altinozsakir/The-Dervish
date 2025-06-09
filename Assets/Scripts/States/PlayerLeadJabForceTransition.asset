@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a5fd7e5801627fe478bf20e0ed6fa6a4, type: 3}
   m_Name: PlayerLeadJabForceTransition
   m_EditorClassIdentifier: 
-  TransitionTiming: 0.056
+  TransitionTiming: 0.939
