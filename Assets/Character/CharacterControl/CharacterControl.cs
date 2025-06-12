@@ -74,8 +74,17 @@ namespace the_dervish
             }
 
             ledgeChecker = GetComponentInChildren<LedgeChecker>();
+            RegisterCharacter();
         }
 
+
+        private void RegisterCharacter()
+        {
+            if(!CharacterManager.Instance.Characters.Contains(this))
+            {
+                CharacterManager.Instance.Characters.Add(this);
+            }
+        }
         // Enables ragdoll mode by disabling animator and enabling physical colliders
         public void TurnOnRagdoll()
         {

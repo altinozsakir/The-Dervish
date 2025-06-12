@@ -7,25 +7,28 @@ namespace the_dervish
     public class LedgeChecker : MonoBehaviour
     {
 
-        Ledge ledge = null;
+        Ledge checkedledge = null;
         [SerializeField] public bool IsGrabbingLedge;
+        [SerializeField] public Ledge GrabbedLedge;
 
         private void OnTriggerEnter(Collider other)
         {
-            ledge = other.gameObject.GetComponent<Ledge>();
-            if (ledge != null)
+            checkedledge = other.gameObject.GetComponent<Ledge>();
+            if (checkedledge != null)
             {
                 IsGrabbingLedge = true;
+                GrabbedLedge = checkedledge;
             }
 
         }
 
         private void OnTriggerExit(Collider other)
         {
-            ledge = other.gameObject.GetComponent<Ledge>();
-            if (ledge != null)
+            checkedledge = other.gameObject.GetComponent<Ledge>();
+            if (checkedledge != null)
             {
                 IsGrabbingLedge = false;
+                // GrabbedLedge = null;
             }
             
         }

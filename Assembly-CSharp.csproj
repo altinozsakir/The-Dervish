@@ -72,8 +72,11 @@
     <Compile Include="Assets\Scripts\StateScripts\Idle.cs" />
     <Compile Include="Assets\Scripts\CharacterState.cs" />
     <Compile Include="Assets\Scripts\TriggerDetector.cs" />
+    <Compile Include="Assets\Scripts\Managers\CharacterManager.cs" />
     <Compile Include="Assets\Scripts\StateScripts\ToggleGravity.cs" />
+    <Compile Include="Assets\Scripts\StateScripts\OffsetOnLedge.cs" />
     <Compile Include="Assets\Scripts\Managers\CameraManager.cs" />
+    <Compile Include="Assets\Scripts\Enums\PlayableCharacterTypeEnum.cs" />
     <Compile Include="Assets\Scripts\KeyboardInput.cs" />
     <Compile Include="Assets\Scripts\StateData.cs" />
     <Compile Include="Assets\Character\CharacterControl\CharacterControl.cs" />
@@ -87,8 +90,10 @@
     <Compile Include="Assets\Scripts\StateScripts\ForceTransition.cs" />
     <Compile Include="Assets\Scripts\Managers\VirtualInputManager.cs" />
     <Compile Include="Assets\Scripts\IInteractable.cs" />
+    <Compile Include="Assets\Scripts\StateScripts\TeleportOnLedge.cs" />
     <Compile Include="Assets\Character\MaterialChanger.cs" />
     <Compile Include="Assets\Scripts\Managers\AttackManager.cs" />
+    <Compile Include="Assets\Scripts\StateScripts\ToggleBoxCollider.cs" />
     <Compile Include="Assets\Scripts\Managers\PoolManager.cs" />
     <Compile Include="Assets\Scripts\StateScripts\MoveForward.cs" />
     <Compile Include="Assets\Scripts\StateScripts\Jump.cs" />

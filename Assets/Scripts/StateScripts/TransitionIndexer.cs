@@ -35,7 +35,7 @@ namespace the_dervish{
 
         public override void OnExit(CharacterState characterState, Animator animator, AnimatorStateInfo animatorStateInfo)
         {
-
+            animator.SetInteger(TransitionParameter.TransitionIndex.ToString(), 0);
 
         }
         public override void UpdateAbility(CharacterState characterState, Animator animator, AnimatorStateInfo stateInfo)
@@ -44,6 +44,10 @@ namespace the_dervish{
             if (MakeTransition(control))
             {
                 animator.SetInteger(TransitionParameter.TransitionIndex.ToString(), Index);
+            }
+            else
+            {
+                animator.SetInteger(TransitionParameter.TransitionIndex.ToString(), 0);
             }
 
         }
